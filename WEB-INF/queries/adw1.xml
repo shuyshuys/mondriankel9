@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<Schema name="aw_warehouse">
+  <!--
+  == This software is subject to the terms of the Eclipse Public License v1.0
+  == Agreement, available at the following URL:
+  == http://www.eclipse.org/legal/epl-v10.html.
+  == You must accept the terms of that agreement to use this software.
+  ==
+  == Copyright (C) 2000-2005 Julian Hyde
+  == Copyright (C) 2005-2011 Pentaho and others
+  == All Rights Reserved.
+  -->
+
+  <!-- Shared dimensions -->
+  
+  
+  <!-- Tabel Fakta -->
+  
+  <cube name="fact_sales">
+    <table name="fact_sales">
+      <dimension foreignKey="CustomerID" name="dim_customer"/>
+      <dimension foreignKey="product_id" name="dim_product"/>
+      <dimension foreignKey="creditcard_id" name="dim_payment"/>
+      <dimension foreignKey="ShipMethodID" name="dim_ship"/>
+      <dimension foreignKey="StoreID" name="dim_store"/>
+      <dimension foreignKey="time_id" name="dim_time"/>
+      <measure column="SalesOrderID" name="SalesOrderID" aggregator="sum"/>
+      <measure column="total_due" name="total_due" aggregator="sum"/>
+      <measure column="order_qty" name="order_qty" aggregator="sum"/>
+    </table>
+  </cube>
+  
+  <cube name="Production">
+    <table name="fact_production">
+      <dimension foreignKey="product_id" name="dim_product"/>
+      <dimension foreignKey="location_id" name="dim_location"/>
+      <dimension foreignKey="time_id" name="dim_time"/>
+      <measure column="product_id" name="product_id" aggregator="sum"/>
+      <measure column="Quantity" name="Quantity" aggregator="sum"/>
+      <measure column="AverageProductionPeriod" name="AverageProductionPeriod" aggregator="sum"/>
+    </table>
+  </cube>
+  
+  <!-- Tabel Dimensi -->
+  
+  <dimension name="dim_customer">
+    <table name="dim_customer">
+      <level column="customer_id" name="customer_id" uniqueMembers="true"/>
+      <level column="AccountNumber" name="AccountNumber"/>
+      <level column="AddressLine1" name="AddressLine1"/>
+      <level column="city" name="city"/>
+      <level column="PostalCode" name="PostalCode"/>
+    </table>
+  </dimension>
+  
+  <dimension name="Product">
+    <table name="dim_product">
+      <level column="product_id" name="product_id" uniqueMembers="true"/>
+      <level column="product_name" name="product_name"/>
+      <level column="standart_cost" name="standart_cost"/>
+      <level column="list_price" name="list_price"/>
+    </table>
+  </dimension>
+  
+  <dimension name="dim_payment">
+    <table name="dim_payment">
+      <level column="creditcard_id" name="creditcard_id" uniqueMembers="true"/>
+      <level column="card_type" name="card_type"/>
+      <level column="card_number" name="card_number"/>
+    </table>
+  </dimension>
+  
+  <dimension name="dim_ship">
+    <table name="dim_ship">
+      <level column="ShipMethodID" name="ShipMethodID" uniqueMembers="true"/>
+      <level column="shipmethod_name" name="shipmethod_name"/>
+      <level column="ShipRate" name="ShipRate"/>
+    </table>
+  </dimension>
+  
+  <dimension name="dim_store">
+    <table name="dim_store">
+      <level column="StoreID" name="StoreID" uniqueMembers="true"/>
+      <level column="StoreName" name="StoreName"/>
+      <level column="TerritoryName" name="TerritoryName"/>
+      <level column="SalesYTD" name="SalesYTD"/>
+      <level column="SalesLastYear" name="SalesLastYear"/>
+    </table>
+  </dimension>
+  
+  <dimension name="Time">
+    <table name="dim_time">
+      <level column="time_id" name="time_id" uniqueMembers="true"/>
+      <level column="FullDate" name="Fulldate"/>
+      <level column="year" name="year"/>
+      <level column="Quarter" name="Quarter"/>
+      <level column="month" name="month"/>
+      <level column="date" name="date"/>
+      <level column="day" name="day"/>
+    </table>
+  </dimension>
+  
+  <dimension name="Location">
+    <table name="dim_location">
+      <level column="location_id" name="location_id" uniqueMembers="true"/>
+      <level column="location_name" name="location_name"/>
+    </table>
+  </dimension>
+  
+  <Measure name="Quantity" column="Quantity" aggregator="sum"
+      formatString="Standard"/>
+  <Measure name="Average Production Period" column="AverageProductionPeriod" aggregator="avg"
+      formatString="Standard"/>
+  
+</schema>

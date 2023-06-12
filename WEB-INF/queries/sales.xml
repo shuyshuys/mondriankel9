@@ -1,0 +1,72 @@
+<Schema name="New Schema1">
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Customer">
+    <Hierarchy name="Customer" visible="true" hasAll="true" allMemberName="All Customer" primaryKey="CustomerID">
+      <Table name="dim_customer">
+      </Table>
+      <Level name="Account Number" visible="true" column="CustomerID" nameColumn="AccountNumber" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="AddressLine" visible="true" column="CustomerID" nameColumn="AddressLine1" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Payment">
+    <Hierarchy name="Payment" visible="true" hasAll="true" allMemberName="All Payment" primaryKey="creditcard_id">
+      <Table name="dim_payment" alias="">
+      </Table>
+      <Level name="Card Type" visible="true" column="creditcard_id" nameColumn="card_type" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Card Number" visible="true" column="creditcard_id" nameColumn="card_number" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Ship">
+    <Hierarchy name="Ship" visible="true" hasAll="true" allMemberName="All Ship" primaryKey="ShipMethodID">
+      <Table name="dim_ship" alias="">
+      </Table>
+      <Level name="Method Name" visible="true" column="ShipMethodID" nameColumn="shipmethod_name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Ship Rate" visible="true" column="ShipMethodID" nameColumn="ShipRate" type="Integer" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Store">
+    <Hierarchy name="Store" visible="true" hasAll="true" allMemberName="All Store" primaryKey="StoreID">
+      <Table name="dim_store" alias="">
+      </Table>
+      <Level name="Store Name" visible="true" column="StoreID" nameColumn="StoreName" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Territory Name" visible="true" column="StoreID" nameColumn="TerritoryName" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Product">
+    <Hierarchy name="Product" visible="true" hasAll="true" allMemberName="All Product" primaryKey="product_id">
+      <Table name="dim_product" alias="">
+      </Table>
+      <Level name="Product Name" visible="true" column="product_id" nameColumn="product_name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Standard Cost" visible="true" column="product_id" nameColumn="standard_cost" type="Integer" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="List Price" visible="true" column="product_id" nameColumn="list_price" type="Integer" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="Sales" visible="true" cache="true" enabled="true">
+    <Table name="fact_sales">
+    </Table>
+    <DimensionUsage source="Customer" name="Customer" visible="true" foreignKey="CustomerID" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Payment" name="Payment" visible="true" foreignKey="ProductID">
+    </DimensionUsage>
+    <DimensionUsage source="Ship" name="Ship" visible="true" foreignKey="ShipMethodID">
+    </DimensionUsage>
+    <DimensionUsage source="Store" name="Store" visible="true" foreignKey="StoreID">
+    </DimensionUsage>
+    <DimensionUsage source="Product" name="Product" visible="true" foreignKey="ProductID">
+    </DimensionUsage>
+    <Measure name="Order Quantity" column="order_qty" datatype="Integer" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Total Due" column="total_due" datatype="Integer" aggregator="sum" visible="true">
+    </Measure>
+  </Cube>
+</Schema>

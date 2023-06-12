@@ -1,0 +1,38 @@
+<Schema name="New Schema1">
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Product">
+    <Hierarchy name="Product" visible="true" hasAll="true" allMemberName="Semua Product" primaryKey="product_id">
+      <Table name="dim_product">
+      </Table>
+      <Level name="Nama Produk" visible="true" column="product_id" nameColumn="product_name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="List Price" visible="true" column="list_price" nameColumn="list_price" type="Integer" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+    <Hierarchy name="Standard Cost" visible="true" hasAll="true" allMemberName="Semua Standard Cost" primaryKey="product_id">
+      <Table name="dim_product" alias="">
+      </Table>
+      <Level name="Standard Cost" visible="true" column="standard_cost" nameColumn="standard_cost" type="Integer" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" name="Lokasi">
+    <Hierarchy name="Lokasi" visible="true" hasAll="true" allMemberName="Semua Lokasi" primaryKey="location_id">
+      <Table name="dim_location">
+      </Table>
+      <Level name="Nama Lokasi" visible="true" column="location_id" nameColumn="location_name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="Produksi" visible="true" cache="true" enabled="true">
+    <Table name="fact_production">
+    </Table>
+    <DimensionUsage source="Product" name="Product" visible="true" foreignKey="ProductID" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Lokasi" name="Lokasi" visible="true" foreignKey="LocationID">
+    </DimensionUsage>
+    <Measure name="Quantity" column="Quantity" datatype="Integer" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="AverageProductionPeriod" column="AverageProductionPeriod" datatype="Integer" aggregator="avg" visible="true">
+    </Measure>
+  </Cube>
+</Schema>
